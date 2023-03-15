@@ -17,8 +17,12 @@ import javax.imageio.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -152,7 +156,6 @@ final String fileName = "src/main/resources/article2.txt";
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DecimalFormat df = new DecimalFormat("#.######");
 
-
         barChart.setVisible(false);
         barChartRed.setVisible(false);
         barChartGreen.setVisible(false);
@@ -165,7 +168,6 @@ final String fileName = "src/main/resources/article2.txt";
         label2.setVisible(false);
         label3.setVisible(false);
 
-        EventHandler<ActionEvent> eh = null;
 
         map = new HashMap<>();
         for (int i = 0; i <= 255; i++) {
@@ -182,9 +184,14 @@ final String fileName = "src/main/resources/article2.txt";
                 e.printStackTrace();
             }
 
-            for (char ch : text.toCharArray()) {
-                map.merge((int) ch, 1, Integer::sum);
-                length++;
+            try {
+                byte[] bytes = Files.readAllBytes(Path.of(fileName));
+                for (byte b : bytes) {
+                    map.merge(Byte.toUnsignedInt(b), 1, Integer::sum);
+                    length++;
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
 
             XYChart.Series series = new XYChart.Series();
@@ -195,7 +202,13 @@ final String fileName = "src/main/resources/article2.txt";
 
             barChart.getData().addAll(series);
             for (int i = 0; i <= 255; i++) {
-                tableView.getItems().add(new Data((char) i, i, map.get(i), df.format((double) map.get(i) / length)));
+                try {
+
+                    byte[] arr =  new String(new byte[]{map.get(i).byteValue()}, "cp866").getBytes("cp866");
+                    tableView.getItems().add(new Data(URLEncoder.encode(new String(arr, StandardCharsets.UTF_8), "UTF-8").toCharArray()[0], i, map.get(i), df.format((double) map.get(i) / length)));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 if (map.get(i) != 0) {
                     entropy += -((double) map.get(i) / length) * ((Math.log((double) map.get(i) / length)) / Math.log(2.0));
                 }
