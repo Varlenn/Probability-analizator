@@ -1,0 +1,15 @@
+.default-color0.chart-bar { -fx-bar-fill: #0e2c8f
+}
+
+.axis {
+    -fx-font-size: 1.4em;
+    -fx-tick-label-fill: #914800;
+    -fx-font-family: Tahoma;
+    /*-fx-tick-length: 20;*/
+    /*-fx-minor-tick-length: 10;*/
+}
+
+.axis-label {
+    -fx-text-fill: #462300;
+    -fx-font-size: 1.2em;
+}
