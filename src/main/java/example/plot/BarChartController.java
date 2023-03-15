@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -129,8 +128,8 @@ public class BarChartController implements Initializable {
     private TableView<Data> tableViewRed;
 
 
-//    final String fileName = "src/main/resources/text.txt";
-final String fileName = "src/main/resources/article2.txt";
+    final String fileName = "src/main/resources/article.txt";
+//final String fileName = "src/main/resources/article2.txt";
 //    final String fileName = "src/main/resources/photo.bmp";
 //final String fileName = "src/main/resources/blue.bmp";
 //final String fileName = "src/main/resources/gb.bmp";
@@ -156,6 +155,7 @@ final String fileName = "src/main/resources/article2.txt";
     public void initialize(URL url, ResourceBundle resourceBundle) {
         DecimalFormat df = new DecimalFormat("#.######");
 
+
         barChart.setVisible(false);
         barChartRed.setVisible(false);
         barChartGreen.setVisible(false);
@@ -168,6 +168,7 @@ final String fileName = "src/main/resources/article2.txt";
         label2.setVisible(false);
         label3.setVisible(false);
 
+        EventHandler<ActionEvent> eh = null;
 
         map = new HashMap<>();
         for (int i = 0; i <= 255; i++) {
@@ -203,9 +204,7 @@ final String fileName = "src/main/resources/article2.txt";
             barChart.getData().addAll(series);
             for (int i = 0; i <= 255; i++) {
                 try {
-
-                    byte[] arr =  new String(new byte[]{map.get(i).byteValue()}, "cp866").getBytes("cp866");
-                    tableView.getItems().add(new Data(URLEncoder.encode(new String(arr, StandardCharsets.UTF_8), "UTF-8").toCharArray()[0], i, map.get(i), df.format((double) map.get(i) / length)));
+                    tableView.getItems().add(new Data( new String(new byte[]{map.get(i).byteValue()}, "cp866").toCharArray()[0], i, map.get(i), df.format((double) map.get(i) / length)));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -298,22 +297,18 @@ final String fileName = "src/main/resources/article2.txt";
     }
 
     public void showData() throws SQLException {
-        asciiCharColumn.setCellValueFactory(new PropertyValueFactory<Data, Character>("asciiChar"));
         asciiNumColumn.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
         numColumn.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
         probabilityColumn.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
 
-        asciiCharColumn1.setCellValueFactory(new PropertyValueFactory<Data, Character>("asciiChar"));
         asciiNumColumn1.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
         numColumn1.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
         probabilityColumn1.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
 
-        asciiCharColumn2.setCellValueFactory(new PropertyValueFactory<Data, Character>("asciiChar"));
         asciiNumColumn2.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
         numColumn2.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
         probabilityColumn2.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
 
-        asciiCharColumn3.setCellValueFactory(new PropertyValueFactory<Data, Character>("asciiChar"));
         asciiNumColumn3.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
         numColumn3.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
         probabilityColumn3.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));

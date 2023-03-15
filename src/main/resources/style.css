@@ -1,8 +1,5 @@
-.default-color0.chart-bar { -fx-bar-fill: #718f0e
-}
-.default-color1.chart-bar { -fx-bar-fill: #a60b25
-}
-.default-color2.chart-bar { -fx-bar-fill: #0e2c8f
+.default-color0.chart-bar {
+    -fx-bar-fill: #718f0e
 }
 
 .axis {

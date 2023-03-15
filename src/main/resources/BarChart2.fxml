@@ -35,10 +35,9 @@
       </BarChart>
       <TableView fx:id="tableView" layoutX="696.0" layoutY="22.0" prefHeight="268.0" prefWidth="746.0">
         <columns>
-          <TableColumn fx:id="asciiCharColumn" prefWidth="151.0" text="ASCII Знак" />
-          <TableColumn fx:id="asciiNumColumn" prefWidth="165.0" text="ASCII Номер" />
-            <TableColumn fx:id="numColumn" prefWidth="209.0" text="Количество " />
-            <TableColumn fx:id="probabilityColumn" prefWidth="220.0" text="Вероятность" />
+          <TableColumn fx:id="asciiNumColumn" prefWidth="214.0" text="ASCII Номер" />
+            <TableColumn fx:id="numColumn" prefWidth="244.0" text="Количество " />
+            <TableColumn fx:id="probabilityColumn" prefWidth="287.0" text="Вероятность" />
         </columns>
       </TableView>
       <Label fx:id="label" layoutX="75.0" layoutY="46.0" prefHeight="35.0" prefWidth="421.0">
@@ -72,26 +71,23 @@
       </BarChart>
       <TableView fx:id="tableViewRed" layoutX="918.0" layoutY="97.0" prefHeight="191.0" prefWidth="533.0" stylesheets="@style.css">
          <columns>
-            <TableColumn fx:id="asciiCharColumn1" prefWidth="110.0" text="ASCII Знак" />
-            <TableColumn fx:id="asciiNumColumn1" prefWidth="115.0" text="ASCII Номер" />
-            <TableColumn fx:id="numColumn1" minWidth="0.0" prefWidth="157.0" text="Количество " />
-            <TableColumn fx:id="probabilityColumn1" minWidth="0.0" prefWidth="159.0" text="Вероятность" />
+            <TableColumn fx:id="asciiNumColumn1" prefWidth="151.0" text="ASCII Номер" />
+            <TableColumn fx:id="numColumn1" minWidth="0.0" prefWidth="176.0" text="Количество " />
+            <TableColumn fx:id="probabilityColumn1" minWidth="0.0" prefWidth="205.0" text="Вероятность" />
          </columns>
       </TableView>
       <TableView fx:id="tableViewGreen" layoutX="918.0" layoutY="324.0" prefHeight="191.0" prefWidth="533.0" stylesheets="@style.css">
          <columns>
-            <TableColumn fx:id="asciiCharColumn2" prefWidth="109.0" text="ASCII Знак" />
-            <TableColumn fx:id="asciiNumColumn2" prefWidth="113.0" text="ASCII Номер" />
-            <TableColumn fx:id="numColumn2" prefWidth="160.0" text="Количество " />
-            <TableColumn fx:id="probabilityColumn2" prefWidth="160.0" text="Вероятность " />
+            <TableColumn fx:id="asciiNumColumn2" prefWidth="147.0" text="ASCII Номер" />
+            <TableColumn fx:id="numColumn2" prefWidth="181.0" text="Количество " />
+            <TableColumn fx:id="probabilityColumn2" prefWidth="204.0" text="Вероятность " />
          </columns>
       </TableView>
       <TableView fx:id="tableViewBlue" layoutX="918.0" layoutY="541.0" prefHeight="191.0" prefWidth="533.0" stylesheets="@style.css">
          <columns>
-            <TableColumn fx:id="asciiCharColumn3" prefWidth="111.0" text="ASCII Знак" />
-            <TableColumn fx:id="asciiNumColumn3" prefWidth="116.0" text="ASCII Номер" />
-            <TableColumn fx:id="numColumn3" prefWidth="159.0" text="Количество " />
-            <TableColumn fx:id="probabilityColumn3" prefWidth="159.0" text="Вероятность " />
+            <TableColumn fx:id="asciiNumColumn3" prefWidth="150.0" text="ASCII Номер" />
+            <TableColumn fx:id="numColumn3" prefWidth="183.0" text="Количество " />
+            <TableColumn fx:id="probabilityColumn3" prefWidth="199.0" text="Вероятность " />
          </columns>
       </TableView>
       <Label fx:id="label1" layoutX="75.0" layoutY="271.0" prefHeight="35.0" prefWidth="421.0">
