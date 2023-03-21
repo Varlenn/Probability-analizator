@@ -12,8 +12,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 
 import javax.imageio.*;
+import javax.swing.*;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -104,6 +107,9 @@ public class BarChartController implements Initializable {
     private AnchorPane pane;
 
     @FXML
+    private Button selectFileButton;
+
+    @FXML
     private TableColumn<Data, Double> probabilityColumn;
 
     @FXML
@@ -127,15 +133,22 @@ public class BarChartController implements Initializable {
     @FXML
     private TableView<Data> tableViewRed;
 
+    @FXML
+    private Label startLabel;
 
-    final String fileName = "src/main/resources/article.txt";
+    @FXML
+    private Label formatLabel;
+
+
+    //    final String fileName = "src/main/resources/article.txt";
 //final String fileName = "src/main/resources/article2.txt";
 //    final String fileName = "src/main/resources/photo.bmp";
 //final String fileName = "src/main/resources/blue.bmp";
 //final String fileName = "src/main/resources/gb.bmp";
 
-
+    String fileName;
     String text;
+    DecimalFormat df;
     Integer length = 0;
     Integer lengthRed = 0;
     Integer lengthGreen = 0;
@@ -146,6 +159,7 @@ public class BarChartController implements Initializable {
     double entropyBlue = 0;
     HashMap<Integer, Integer> map;
     private Channel channel;
+    XYChart.Series series;
     XYChart.Series seriesRed;
     XYChart.Series seriesGreen;
     XYChart.Series seriesBlue;
@@ -153,32 +167,127 @@ public class BarChartController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        DecimalFormat df = new DecimalFormat("#.######");
+        df = new DecimalFormat("#.######");
 
-
-        barChart.setVisible(false);
         barChartRed.setVisible(false);
         barChartGreen.setVisible(false);
         barChartBlue.setVisible(false);
-        tableView.setVisible(false);
         tableViewRed.setVisible(false);
         tableViewGreen.setVisible(false);
         tableViewBlue.setVisible(false);
+        formatLabel.setVisible(false);
+        label.setVisible(false);
         label1.setVisible(false);
         label2.setVisible(false);
         label3.setVisible(false);
 
-        EventHandler<ActionEvent> eh = null;
 
-        map = new HashMap<>();
-        for (int i = 0; i <= 255; i++) {
-            map.put(i, 0);
+        selectFileButton.setOnAction(actionEvent -> {
+            startLabel.setVisible(false);
+            formatLabel.setVisible(true);
+            barChart.setVisible(false);
+            barChartRed.setVisible(false);
+            barChartGreen.setVisible(false);
+            barChartBlue.setVisible(false);
+            tableView.setVisible(false);
+            tableViewRed.setVisible(false);
+            tableViewGreen.setVisible(false);
+            tableViewBlue.setVisible(false);
+            label.setVisible(false);
+            label1.setVisible(false);
+            label2.setVisible(false);
+            label3.setVisible(false);
+
+            map = new HashMap<>();
+            for (int i = 0; i <= 255; i++) {
+                map.put(i, 0);
+            }
+
+            try {
+                fileName = selectFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            formatLabel.setText("Расширение файла: \"" + getFileExtension(fileName) + "\"");
+            setData();
+            try {
+                showData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private String selectFile() throws IOException {
+        clearData();
+        JFileChooser fileopen = new JFileChooser();
+        File chooserFile = new File((new File("./src/main/resources").getCanonicalPath()));
+        fileopen.setCurrentDirectory(chooserFile);
+        int ret = fileopen.showDialog(null, "Открыть файл");
+        File file = null;
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            file = fileopen.getSelectedFile();
         }
+        return file.getPath();
+    }
+
+    private static String readUsingScanner(String fileName) throws IOException {
+        Scanner scanner = new Scanner(Paths.get(fileName), StandardCharsets.UTF_8.name());
+        String data = scanner.useDelimiter("\\A").next();
+        scanner.close();
+        return data;
+    }
+
+    private static String getFileExtension(String name) {
+        int index = name.indexOf('.');
+        return index == -1 ? null : name.substring(index);
+    }
+
+    private void clearData() {
+        barChart.getData().clear();
+        barChartRed.getData().clear();
+        barChartGreen.getData().clear();
+        barChartBlue.getData().clear();
+        tableView.getItems().clear();
+        tableViewRed.getItems().clear();
+        tableViewGreen.getItems().clear();
+        tableViewBlue.getItems().clear();
+        entropy = 0;
+        entropyRed = 0;
+        entropyGreen = 0;
+        entropyBlue = 0;
+    }
+
+    public void showData() throws SQLException {
+        asciiNumColumn.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
+        numColumn.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
+        probabilityColumn.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
+
+        asciiNumColumn1.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
+        numColumn1.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
+        probabilityColumn1.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
+
+        asciiNumColumn2.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
+        numColumn2.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
+        probabilityColumn2.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
+
+        asciiNumColumn3.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
+        numColumn3.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
+        probabilityColumn3.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
 
 
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableViewRed.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableViewGreen.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        tableViewBlue.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    }
+
+    private void setData() {
         if (Objects.equals(getFileExtension(fileName), ".txt")) {
             barChart.setVisible(true);
             tableView.setVisible(true);
+            label.setVisible(true);
+
             try {
                 text = readUsingScanner(fileName);
             } catch (IOException e) {
@@ -195,7 +304,7 @@ public class BarChartController implements Initializable {
                 throw new RuntimeException(e);
             }
 
-            XYChart.Series series = new XYChart.Series();
+            series = new XYChart.Series();
             series.setName("Количество повторений");
             for (int i = 0; i <= 255; i++) {
                 series.getData().add(new XYChart.Data(String.valueOf(i), map.get(i)));
@@ -204,7 +313,7 @@ public class BarChartController implements Initializable {
             barChart.getData().addAll(series);
             for (int i = 0; i <= 255; i++) {
                 try {
-                    tableView.getItems().add(new Data( new String(new byte[]{map.get(i).byteValue()}, "cp866").toCharArray()[0], i, map.get(i), df.format((double) map.get(i) / length)));
+                    tableView.getItems().add(new Data(new String(new byte[]{map.get(i).byteValue()}, "cp866").toCharArray()[0], i, map.get(i), df.format((double) map.get(i) / length)));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -221,6 +330,7 @@ public class BarChartController implements Initializable {
             tableViewGreen.setVisible(true);
             tableViewBlue.setVisible(true);
 
+            label.setVisible(true);
             label1.setVisible(true);
             label2.setVisible(true);
             label3.setVisible(true);
@@ -275,49 +385,6 @@ public class BarChartController implements Initializable {
         label1.setText("Энтропия: " + entropyRed);
         label2.setText("Энтропия: " + entropyGreen);
         label3.setText("Энтропия: " + entropyBlue);
-
-        try {
-            showData();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private static String readUsingScanner(String fileName) throws IOException {
-        Scanner scanner = new Scanner(Paths.get(fileName), StandardCharsets.UTF_8.name());
-        String data = scanner.useDelimiter("\\A").next();
-        scanner.close();
-        return data;
-    }
-
-    private static String getFileExtension(String name) {
-        int index = name.indexOf('.');
-        return index == -1 ? null : name.substring(index);
-    }
-
-    public void showData() throws SQLException {
-        asciiNumColumn.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
-        numColumn.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
-        probabilityColumn.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
-
-        asciiNumColumn1.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
-        numColumn1.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
-        probabilityColumn1.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
-
-        asciiNumColumn2.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
-        numColumn2.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
-        probabilityColumn2.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
-
-        asciiNumColumn3.setCellValueFactory(new PropertyValueFactory<Data, Integer>("asciiNum"));
-        numColumn3.setCellValueFactory(new PropertyValueFactory<Data, Integer>("num"));
-        probabilityColumn3.setCellValueFactory(new PropertyValueFactory<Data, Double>("probability"));
-
-
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tableViewRed.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tableViewGreen.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tableViewBlue.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     private void startAnalysis() {
@@ -346,15 +413,6 @@ public class BarChartController implements Initializable {
                     map.merge((rgb) & 0x000000FF, 1, Integer::sum);
                     lengthBlue += 1;
                 }
-
-//                Integer value = switch (channel) {
-//                    case RED -> (rgb >> 16) & 0x000000FF;
-//                    case GREEN -> (rgb >> 8) & 0x000000FF;
-//                    case BLUE -> (rgb) & 0x000000FF;
-//                    case ALL -> throw new IllegalStateException();
-//                };
-//                map.merge(value, 1, Integer::sum);
-//                    length += 1;
             }
         }
     }
