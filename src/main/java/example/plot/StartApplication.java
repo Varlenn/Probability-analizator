@@ -11,7 +11,7 @@ public class StartApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("/BarChart2.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("/BarChart.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1600, 800);
         stage.setTitle("Analyzer!");
         stage.setResizable(false);

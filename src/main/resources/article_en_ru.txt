@@ -1,0 +1,7 @@
+Darknet: selling confidential information?
+Information about leaks of confidential user information to the Darknet is increasingly emerging on the network.
+But what is it, how does it work, and what can you do to save your data?
+What is Darknet?
+Сквозное шифрование – определение простыми словами
+Входящие и исходящие звонки, аудио и текстовые сообщения, картинки и видео – абсолютно вся информация в чате находится под надежной защитой сквозного шифрования.
+С его помощью данные не смогут попасть в посторонние руки, т.к. доступны исключительно двум или более собеседникам, принимающим участие в чате.

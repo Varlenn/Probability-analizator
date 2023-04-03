@@ -1,7 +1,5 @@
 package example.plot;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -10,13 +8,10 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
 
 import javax.imageio.*;
 import javax.swing.*;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +28,6 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-import static java.lang.Math.log;
 
 public class BarChartController implements Initializable {
 
@@ -139,12 +133,6 @@ public class BarChartController implements Initializable {
     @FXML
     private Label formatLabel;
 
-
-    //    final String fileName = "src/main/resources/article.txt";
-//final String fileName = "src/main/resources/article2.txt";
-//    final String fileName = "src/main/resources/photo.bmp";
-//final String fileName = "src/main/resources/blue.bmp";
-//final String fileName = "src/main/resources/gb.bmp";
 
     String fileName;
     String text;

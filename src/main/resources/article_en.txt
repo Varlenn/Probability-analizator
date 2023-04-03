@@ -1,0 +1,12 @@
+Darknet: selling confidential information?
+Information about leaks of confidential user information to the Darknet is increasingly emerging on the network.
+But what is it, how does it work, and what can you do to save your data?
+What is Darknet?
+The Dark Web is the hidden part of the Internet. Translated from English, DarkNet literally means - shadow
+or the dark web. It is only accessible through certain programs and tools that keep users anonymous and protect their personal information.
+Participants on the Dark Web are called peers. The connection is made between them only in encrypted format
+after mutual approval. The domains and address space on the Dark Web are also their own.
+Even to get into the Darknet, you need special software. One of them is Tor Browser.
+It encrypts the user's traffic while he is in contact with someone on the network. But when he enters or leaves it, it is quite possible to track him.
+While the Dark Web is used for more than just disclosed activities, including
+communication and information exchange, there are often cases of selling confidential information of users.
