@@ -183,13 +183,13 @@ public class BarChartController implements Initializable {
 
 
         // Изменить генератор
-//        try {
-//            res = lsg.generate(100);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-        res = bbs.generate(100);
-//        res = lsfr.generate(100);
+        try {
+            res = lsg.generate(1000);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+//        res = bbs.generate(1000);
+//        res = lsfr.generate(1000);
 
 
         selectFileButton.setOnAction(actionEvent -> {
