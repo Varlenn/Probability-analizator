@@ -182,16 +182,14 @@ public class BarChartController implements Initializable {
         lsfr = new GeneratorLFSR();
 
 
-
         // Изменить генератор
 //        try {
 //            res = lsg.generate(100);
 //        } catch (UnsupportedEncodingException e) {
 //            e.printStackTrace();
 //        }
-        res = bbs.generate(100);
-//            res = lsfr.generate(100);
-
+//        res = bbs.generate(100);
+        res = lsfr.generate(100);
 
 
         selectFileButton.setOnAction(actionEvent -> {
@@ -211,14 +209,13 @@ public class BarChartController implements Initializable {
             label3.setVisible(false);
             startLabel.setVisible(false);
 
-            if (Objects.equals(res, "")) {
-                try {
-                    fileName = selectFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                formatLabel.setText("Расширение файла: \"" + getFileExtension(fileName) + "\"");
+            try {
+                fileName = selectFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            formatLabel.setText("Расширение файла: \"" + getFileExtension(fileName) + "\"");
+
         });
 
         setData();
@@ -321,8 +318,7 @@ public class BarChartController implements Initializable {
                     entropy += -((double) map.get(i) / length) * ((Math.log((double) map.get(i) / length)) / Math.log(2.0));
                 }
             }
-        }
-        else if (Objects.equals(getFileExtension(fileName), ".txt")) {
+        } else if (Objects.equals(getFileExtension(fileName), ".txt")) {
             barChart.setVisible(true);
             tableView.setVisible(true);
             label.setVisible(true);
