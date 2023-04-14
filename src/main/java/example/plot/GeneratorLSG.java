@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GeneratorLSG implements Generator{
     private final int a, c, m;
-    private int next;
+    private int x;
     List<Integer> list = new ArrayList<>();
 
     public GeneratorLSG() {
@@ -17,14 +17,14 @@ public class GeneratorLSG implements Generator{
 
     @Override
     public int setRandom(int min, int max) {
-        next = Math.abs((next * a + c) % m);
-        return Math.abs(min + next % (max - min));
+        x = Math.abs((x * a + c) % m);
+        return Math.abs(min + x % (max - min));
     }
 
 
     @Override
     public List<Integer> generate(int symbols) throws UnsupportedEncodingException {
-        next = (int) System.currentTimeMillis();
+        x = (int) System.currentTimeMillis();
 
         for (int i = 0; i < symbols; i++) {
             final int number = setRandom(0, 32);

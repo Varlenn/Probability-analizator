@@ -188,8 +188,8 @@ public class BarChartController implements Initializable {
 //        } catch (UnsupportedEncodingException e) {
 //            e.printStackTrace();
 //        }
-//        res = bbs.generate(100);
-        res = lsfr.generate(100);
+        res = bbs.generate(100);
+//        res = lsfr.generate(100);
 
 
         selectFileButton.setOnAction(actionEvent -> {

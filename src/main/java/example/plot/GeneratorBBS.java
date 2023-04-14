@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GeneratorBBS implements Generator {
     private final int p, q, m;
-    private int x = 3;
+    private int x;
     List<Integer> list = new ArrayList<>();
 
     public GeneratorBBS() {
@@ -22,6 +22,7 @@ public class GeneratorBBS implements Generator {
 
     @Override
     public List<Integer> generate(int symbols) {
+        x = (int) System.currentTimeMillis();
 
         for (int i = 0; i < symbols; i++) {
             final int number = setRandom(0, 32);
