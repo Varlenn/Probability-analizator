@@ -23,10 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class BarChartController implements Initializable {
@@ -152,6 +149,11 @@ public class BarChartController implements Initializable {
     XYChart.Series seriesGreen;
     XYChart.Series seriesBlue;
 
+    GeneratorLSG lsg;
+    GeneratorBBS bbs;
+    GeneratorLFSR lsfr;
+    List<Integer> res;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -168,6 +170,28 @@ public class BarChartController implements Initializable {
         label1.setVisible(false);
         label2.setVisible(false);
         label3.setVisible(false);
+        startLabel.setVisible(false);
+
+        map = new HashMap<>();
+        for (int i = 0; i <= 255; i++) {
+            map.put(i, 0);
+        }
+
+        lsg = new GeneratorLSG();
+        bbs = new GeneratorBBS();
+        lsfr = new GeneratorLFSR();
+
+
+
+        // Изменить генератор
+//        try {
+//            res = lsg.generate(100);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        res = bbs.generate(100);
+//            res = lsfr.generate(100);
+
 
 
         selectFileButton.setOnAction(actionEvent -> {
@@ -185,25 +209,24 @@ public class BarChartController implements Initializable {
             label1.setVisible(false);
             label2.setVisible(false);
             label3.setVisible(false);
+            startLabel.setVisible(false);
 
-            map = new HashMap<>();
-            for (int i = 0; i <= 255; i++) {
-                map.put(i, 0);
-            }
-
-            try {
-                fileName = selectFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            formatLabel.setText("Расширение файла: \"" + getFileExtension(fileName) + "\"");
-            setData();
-            try {
-                showData();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (Objects.equals(res, "")) {
+                try {
+                    fileName = selectFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                formatLabel.setText("Расширение файла: \"" + getFileExtension(fileName) + "\"");
             }
         });
+
+        setData();
+        try {
+            showData();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private String selectFile() throws IOException {
@@ -271,7 +294,35 @@ public class BarChartController implements Initializable {
     }
 
     private void setData() {
-        if (Objects.equals(getFileExtension(fileName), ".txt")) {
+        if (!Objects.equals(res, "")) {
+            barChart.setVisible(true);
+            tableView.setVisible(true);
+            label.setVisible(true);
+
+            for (Integer ch : res) {
+                map.merge(ch, 1, Integer::sum);
+                length++;
+            }
+
+            series = new XYChart.Series();
+            series.setName("Количество повторений");
+            for (int i = 0; i <= 255; i++) {
+                series.getData().add(new XYChart.Data(String.valueOf(i), map.get(i)));
+            }
+
+            barChart.getData().addAll(series);
+            for (int i = 0; i <= 255; i++) {
+                try {
+                    tableView.getItems().add(new Data(new String(new byte[]{map.get(i).byteValue()}, "cp866").toCharArray()[0], i, map.get(i), df.format((double) map.get(i) / length)));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                if (map.get(i) != 0) {
+                    entropy += -((double) map.get(i) / length) * ((Math.log((double) map.get(i) / length)) / Math.log(2.0));
+                }
+            }
+        }
+        else if (Objects.equals(getFileExtension(fileName), ".txt")) {
             barChart.setVisible(true);
             tableView.setVisible(true);
             label.setVisible(true);

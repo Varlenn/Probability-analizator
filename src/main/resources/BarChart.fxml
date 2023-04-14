@@ -12,16 +12,6 @@
 
 <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.plot.BarChartController">
    <children>
-<!--      <Button fx:id="addFileButton" layoutX="137.0" layoutY="22.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="185.0" text="Добавить файл">-->
-<!--         <font>-->
-<!--            <Font size="14.0" />-->
-<!--         </font>-->
-<!--      </Button>-->
-<!--      <Label fx:id="entropyLabel" layoutX="180.0" layoutY="244.0" text="Энтропия: ">-->
-<!--         <font>-->
-<!--            <Font size="20.0" />-->
-<!--         </font>-->
-<!--      </Label>-->
       <BarChart fx:id="barChart" animated="false" layoutX="32.0" layoutY="296.0" prefHeight="490.0" prefWidth="1437.0" stylesheets="@style.css">
         <xAxis>
           <CategoryAxis fx:id="labelX" label="Знаки ASCII " prefWidth="838.0" side="BOTTOM" stylesheets="@style.css" />
