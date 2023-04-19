@@ -197,10 +197,13 @@ public class BarChartController implements Initializable {
 
 
         // Изменить ключ
-//        res = cipher.getVigenereKeyInt("ведро", 1);
-//        res = cipher.getVigenereKeyStr("ведро", "Родной куст и зайцу дорог.");
-//        res = cipher.getVigenereKeyList("ведро", lfsr.generate(5));
-
+        try {
+            res = cipher.getVigenereKeyInt(readUsingScanner("src/main/resources/textChipher.txt"), 1);
+//            res = cipher.getVigenereKeyStr(readUsingScanner("src/main/resources/textChipher.txt"), "Родной куст и зайцу дорог.");
+//            res = cipher.getVigenereKeyList(readUsingScanner("src/main/resources/textChipher.txt"), lfsr.generate(10));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         selectFileButton.setOnAction(actionEvent -> {
