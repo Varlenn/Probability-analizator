@@ -48,7 +48,7 @@ public class GeneratorLFSR implements Generator {
             final int number = setRandom(0, 32);
             list.add(number);
         }
-        System.out.println(list);
+//        System.out.println(list);
         return list;
     }
 }

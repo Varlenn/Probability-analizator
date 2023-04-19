@@ -151,8 +151,10 @@ public class BarChartController implements Initializable {
 
     GeneratorLSG lsg;
     GeneratorBBS bbs;
-    GeneratorLFSR lsfr;
+    GeneratorLFSR lfsr;
     List<Integer> res;
+
+    VigenereCipher cipher = new VigenereCipher(1072, 32);
 
 
     @Override
@@ -179,17 +181,26 @@ public class BarChartController implements Initializable {
 
         lsg = new GeneratorLSG();
         bbs = new GeneratorBBS();
-        lsfr = new GeneratorLFSR();
+        lfsr = new GeneratorLFSR();
 
 
         // Изменить генератор
-        try {
-            res = lsg.generate(1000);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            res = lsg.generate(1000);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
 //        res = bbs.generate(1000);
-//        res = lsfr.generate(1000);
+//        res = lfsr.generate(1000);
+
+//        System.out.println(res);
+
+
+        // Изменить ключ
+//        res = cipher.getVigenereKeyInt("ведро", 1);
+//        res = cipher.getVigenereKeyStr("ведро", "Родной куст и зайцу дорог.");
+//        res = cipher.getVigenereKeyList("ведро", lfsr.generate(5));
+
 
 
         selectFileButton.setOnAction(actionEvent -> {
