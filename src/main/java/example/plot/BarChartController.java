@@ -193,12 +193,12 @@ public class BarChartController implements Initializable {
 //        res = bbs.generate(1000);
 //        res = lfsr.generate(1000);
 
-//        System.out.println(res);
+        System.out.println(res);
 
 
         // Изменить ключ
         try {
-            res = cipher.getVigenereKeyInt(readUsingScanner("src/main/resources/textChipher.txt"), 1);
+            res = cipher.getVigenereKeyInt(readUsingScanner("src/main/resources/textChipher.txt"), 19);
 //            res = cipher.getVigenereKeyStr(readUsingScanner("src/main/resources/textChipher.txt"), "Родной куст и зайцу дорог.");
 //            res = cipher.getVigenereKeyList(readUsingScanner("src/main/resources/textChipher.txt"), lfsr.generate(10));
         } catch (IOException e) {
