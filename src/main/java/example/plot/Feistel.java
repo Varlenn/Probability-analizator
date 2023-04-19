@@ -5,17 +5,22 @@ package example.plot;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Feistel {
 
 
     private static int rounds = 8;
+    private List<Integer> list = new ArrayList<>();
+    int a[];
 
     public static void main(String[] args) throws IOException {
-        int a[];
-        a = fileread("src/main/resources/textChipher.txt");                     //Считываем файл, который надо зашифровать
-        feist(a, keygen(3));                     //Отправляем на шифрование
-        filewrite("src/main/resources/shifr.txt", a);                   //Записываем зашифрованный файл
+
+//        a = fileread("src/main/resources/textChipher.txt");                     //Считываем файл, который надо зашифровать
+//        feist(a, keygen(3));                     //Отправляем на шифрование
+//        filewrite("src/main/resources/shifr.txt", a);                   //Записываем зашифрованный файл
+
+
 //        int b[] = fileread("shifr");            //Считываем шифр
 //        refeist(b, keygen(3));                   //Расшифровываем
 //        filewrite("src/main/resources/output.txt", b);                  //Записываем результат
@@ -41,6 +46,18 @@ public class Feistel {
         return a;
     }
 
+    public List<Integer> getFeistel(String file) throws IOException {
+        a = fileread(file);
+        feist(a, keygen(3));                     //Отправляем на шифрование
+//        filewrite("src/main/resources/shifr.txt", a);                   //Записываем зашифрованный файл
+
+        for (int i = 0; i < a.length; i++) {
+            list.add(a[i]);
+        }
+        System.out.println(list);
+        return list;
+    }
+
     public static void filewrite(String filename, int[] a) throws IOException {
         FileOutputStream file = new FileOutputStream(filename);
         DataOutputStream myfile = new DataOutputStream(file);
@@ -55,9 +72,12 @@ public class Feistel {
         int n = rounds;
         String str = "Родной куст и зайцу дорог.";
         int a[] = new int[n];
+//        int t = 1;
         int t = 1;
         for (int i = 0; i < n; i++) {
-            a[i] = str.charAt(i);
+            t = str.charAt(i);
+            a[i] = right(k, t * 6) ^ left(k, t * 7);
+
 //            a[i] = right(k, t * 6) ^ left(k, t * 7);
 //            t++;
         }
@@ -83,7 +103,6 @@ public class Feistel {
                 }
                 a[p] = l;
                 a[p + 1] = r;
-                System.out.println(a[p]);
             }
         } else {
             System.out.println("Error of length");
@@ -115,15 +134,15 @@ public class Feistel {
 //        } else System.out.println("Error of length");
 //    }
 //
-//    public static int left(int a, int i) {
-//
-//        return (a << i) | (a >> 32 - i);
-//    }
-//
-//    public static int right(int a, int i) {
-//
-//        return (a >> i) | (a << 32 - i);
-//    }
+    public static int left(int a, int i) {
+
+        return (a << i) | (a >> 32 - i);
+    }
+
+    public static int right(int a, int i) {
+
+        return (a >> i) | (a << 32 - i);
+    }
 
     private static int f(int a) {
         return (((a << 17)) ^ (((a & 0x0F0F0F0F) >> 4) | (~a & 0xF0F0F0F0)));
