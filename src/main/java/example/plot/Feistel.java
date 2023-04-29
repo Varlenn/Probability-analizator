@@ -1,8 +1,5 @@
 package example.plot;
 
-//http://habrahabr.ru/post/187606/
-//http://habrahabr.ru/post/140404/
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +7,9 @@ import java.util.List;
 public class Feistel {
 
 
-    private static int rounds = 8;
-    private List<Integer> list = new ArrayList<>();
-    int a[];
+    private static int rounds;
+    private List<Integer> list;
+    int[] a;
 
     public static void main(String[] args) throws IOException {
 
@@ -46,15 +43,18 @@ public class Feistel {
         return a;
     }
 
-    public List<Integer> getFeistel(String file) throws IOException {
+    public List<Integer> getFeistel(String file, int iterations) throws IOException {
+        list = new ArrayList<>();
         a = fileread(file);
-        feist(a, keygen(3));                     //Отправляем на шифрование
+        rounds = iterations;
+        feist(a, keygen(rounds), false);                     //Отправляем на шифрование
 //        filewrite("src/main/resources/shifr.txt", a);                   //Записываем зашифрованный файл
-
+//        feist(a, keygen(8), true);
         for (int i = 0; i < a.length; i++) {
             list.add(a[i]);
         }
-        System.out.println(list);
+//        System.out.println("\n");
+//        System.out.println(list);
         return list;
     }
 
@@ -84,32 +84,37 @@ public class Feistel {
         return a;
     }
 
-    public static void feist(int[] a, int[] key) {
-        if (a.length % 2 == 0) {                            //Проверяем четное ли количество блоков
-            for (int p = 0; p < a.length - 1; p += 2) {     //Разбиваем на левый и правый блок
-                int l = a[p];
-                int r = a[p + 1];
-                for (int i = 0; i < rounds; i++) {          //Начало шифрования
-                    if (i < rounds - 1) {
-                        int x = key[i] ^ r;
-                        l = l ^ f(x);
-                        int z = l;
-                        l = r;
-                        r = z;
-                    } else {                                //Последний раунд без обмена
-                        int x = key[i] ^ r;
-                        l = l ^ f(x);
-                    }
+    public static void feist(int[] a, int[] key, boolean reverse) {
+        int round = reverse? rounds: 1;
+
+        for (int j = 0; j < a.length; j+=2) {
+            int l = a[j];
+            int r = a[j+1];
+            for (int i = 0; i < rounds; i++) {
+                if (i < rounds - 1) // если не последний раунд
+                {
+                    int t = l;
+                    l = r ^ f(l, key[i]);
+                    r = t;
+                } else // последний раунд
+                {
+                    r = r ^ f(l, key[i]);
                 }
-                a[p] = l;
-                a[p + 1] = r;
+                round += reverse ? -1 : 1;
+//            System.out.print(a[i] + " ");
             }
-        } else {
-            System.out.println("Error of length");
+            a[j] = l;
+            a[j+1] = r;
         }
     }
+    private static int f(int b, int k)
+    {
+        return (b + k)%256;
+    }
 
-//    public static void refeist(int[] a, int[] key) {
+
+
+    //    public static void refeist(int[] a, int[] key) {
 //        if (a.length % 2 == 0) {
 //            for (int p = 0; p < a.length - 1; p += 2) {
 //                int l = a[p];
@@ -144,8 +149,8 @@ public class Feistel {
         return (a >> i) | (a << 32 - i);
     }
 
-    private static int f(int a) {
-        return (((a << 17)) ^ (((a & 0x0F0F0F0F) >> 4) | (~a & 0xF0F0F0F0)));
-    }
+//    private static int f(int a) {
+//        return (((a << 17)) ^ (((a & 0x0F0F0F0F) >> 4) | (~a & 0xF0F0F0F0)));
+//    }
 }
 

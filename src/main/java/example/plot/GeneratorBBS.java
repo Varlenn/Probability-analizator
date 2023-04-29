@@ -6,7 +6,7 @@ import java.util.List;
 public class GeneratorBBS implements Generator {
     private final int p, q, m;
     private int x;
-    List<Integer> list = new ArrayList<>();
+    List<Integer> list;
 
     public GeneratorBBS() {
         p = 65003;
@@ -22,6 +22,7 @@ public class GeneratorBBS implements Generator {
 
     @Override
     public List<Integer> generate(int symbols) {
+        list = new ArrayList<>();
         x = (int) System.currentTimeMillis();
 
         for (int i = 0; i < symbols; i++) {

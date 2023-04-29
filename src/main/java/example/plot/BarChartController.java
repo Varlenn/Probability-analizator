@@ -130,6 +130,36 @@ public class BarChartController implements Initializable {
     @FXML
     private Label formatLabel;
 
+    @FXML
+    private Button stringButton;
+
+    @FXML
+    private Button lfsrButton;
+
+    @FXML
+    private Button lfsrKeyButton;
+
+    @FXML
+    private Button lsgButton;
+
+    @FXML
+    private Button bbsButton;
+
+    @FXML
+    private Button constButton;
+
+    @FXML
+    private Button feistButton;
+
+    @FXML
+    private Button lastButton;
+
+    @FXML
+    private Button nextButton;
+
+    @FXML
+    private Label roundLabel;
+
 
     String fileName;
     String text;
@@ -156,11 +186,14 @@ public class BarChartController implements Initializable {
 
     VigenereCipher cipher = new VigenereCipher(1072, 32);
     Feistel feistel = new Feistel();
+    DecimalFormat decimalFormat = new DecimalFormat("#.###");
+
+    int iterations = 1;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        df = new DecimalFormat("#.######");
+        df = new DecimalFormat("#.###");
 
         barChartRed.setVisible(false);
         barChartGreen.setVisible(false);
@@ -174,6 +207,7 @@ public class BarChartController implements Initializable {
         label2.setVisible(false);
         label3.setVisible(false);
         startLabel.setVisible(false);
+        roundLabel.setVisible(false);
 
         map = new HashMap<>();
         for (int i = 0; i <= 255; i++) {
@@ -184,35 +218,116 @@ public class BarChartController implements Initializable {
         bbs = new GeneratorBBS();
         lfsr = new GeneratorLFSR();
 
+        lsgButton.setOnAction(actionEvent -> {
+            roundLabel.setVisible(false);
+            clearData();
+            try {
+                res = lsg.generate(1000);
+                generate();
+                showData();
+            } catch (UnsupportedEncodingException | SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        bbsButton.setOnAction(actionEvent -> {
+            roundLabel.setVisible(false);
+            clearData();
+            res = bbs.generate(1000);
+            generate();
+            try {
+                showData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        lfsrButton.setOnAction(actionEvent -> {
+            roundLabel.setVisible(false);
+            clearData();
+            res = lfsr.generate(1000);
+            generate();
+            try {
+                showData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
 
-        // Изменить генератор
-//        try {
-//            res = lsg.generate(1000);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        res = bbs.generate(1000);
-//        res = lfsr.generate(1000);
 
-//        System.out.println(res);
+        constButton.setOnAction(actionEvent -> {
+            roundLabel.setVisible(false);
+            clearData();
+            try {
+                res = cipher.getVigenereKeyInt(readUsingScanner(fileName), 19);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            generate();
+            try {
+                showData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        stringButton.setOnAction(actionEvent -> {
+            roundLabel.setVisible(false);
+            clearData();
+            try {
+                res = cipher.getVigenereKeyStr(readUsingScanner(fileName), "Родной куст и зайцу дорог.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            generate();
+            try {
+                showData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        lfsrKeyButton.setOnAction(actionEvent -> {
+            roundLabel.setVisible(false);
+            clearData();
+            try {
+                res = cipher.getVigenereKeyList(readUsingScanner(fileName), lfsr.generate(10));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            generate();
+            try {
+                showData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
 
 
-        // Изменить ключ
-//        try {
-//            res = cipher.getVigenereKeyInt(readUsingScanner("src/main/resources/textChipher.txt"), 19);
-////            res = cipher.getVigenereKeyStr(readUsingScanner("src/main/resources/textChipher.txt"), "Родной куст и зайцу дорог.");
-////            res = cipher.getVigenereKeyList(readUsingScanner("src/main/resources/textChipher.txt"), lfsr.generate(10));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        nextButton.setOnAction(actionEvent -> {
+            if (iterations < 8) {
+                iterations += 1;
+            } else {
+                iterations = 1;
+            }
+            roundLabel.setVisible(true);
+            roundLabel.setText("Раунд: " + iterations);
+            getFeistel();
+        });
 
+        lastButton.setOnAction(actionEvent -> {
+            if (iterations > 1) {
+                iterations -= 1;
+            } else {
+                iterations = 8;
+            }
+            roundLabel.setVisible(true);
+            roundLabel.setText("Раунд: " + iterations);
+            getFeistel();
+        });
 
-        // Феистель
-        try {
-            res = feistel.getFeistel("src/main/resources/textChipher.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        feistButton.setOnAction(actionEvent -> {
+            roundLabel.setVisible(true);
+            iterations = 1;
+            roundLabel.setText("Раунд: " + iterations);
+            getFeistel();
+        });
 
 
         selectFileButton.setOnAction(actionEvent -> {
@@ -238,15 +353,13 @@ public class BarChartController implements Initializable {
                 e.printStackTrace();
             }
             formatLabel.setText("Расширение файла: \"" + getFileExtension(fileName) + "\"");
-
+            setData();
+            try {
+                showData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         });
-
-        setData();
-        try {
-            showData();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     private String selectFile() throws IOException {
@@ -283,6 +396,11 @@ public class BarChartController implements Initializable {
         tableViewRed.getItems().clear();
         tableViewGreen.getItems().clear();
         tableViewBlue.getItems().clear();
+        length = 0;
+        map.clear();
+        for (int i = 0; i <= 255; i++) {
+            map.put(i, 0);
+        }
         entropy = 0;
         entropyRed = 0;
         entropyGreen = 0;
@@ -314,37 +432,35 @@ public class BarChartController implements Initializable {
     }
 
     private void setData() {
-        if (!Objects.equals(res, "")) {
+        if (Objects.equals(getFileExtension(fileName), ".txt")) {
             barChart.setVisible(true);
             tableView.setVisible(true);
             label.setVisible(true);
+            roundLabel.setVisible(false);
 
-            for (Integer ch : res) {
-                map.merge(ch, 1, Integer::sum);
-                length++;
-            }
+            lsgButton.setVisible(true);
+            bbsButton.setVisible(true);
+            lfsrButton.setVisible(true);
 
-            series = new XYChart.Series();
-            series.setName("Количество повторений");
+            constButton.setVisible(true);
+            stringButton.setVisible(true);
+            lfsrKeyButton.setVisible(true);
+
+            constButton.setDisable(false);
+            stringButton.setDisable(false);
+            lfsrKeyButton.setDisable(false);
+
+            feistButton.setVisible(true);
+            nextButton.setVisible(true);
+            lastButton.setVisible(true);
+
+            feistButton.setDisable(false);
+            nextButton.setDisable(false);
+            lastButton.setDisable(false);
+
             for (int i = 0; i <= 255; i++) {
-                series.getData().add(new XYChart.Data(String.valueOf(i), map.get(i)));
+                map.put(i, 0);
             }
-
-            barChart.getData().addAll(series);
-            for (int i = 0; i <= 255; i++) {
-                try {
-                    tableView.getItems().add(new Data(new String(new byte[]{map.get(i).byteValue()}, "cp866").toCharArray()[0], i, map.get(i), df.format((double) map.get(i) / length)));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                if (map.get(i) != 0) {
-                    entropy += -((double) map.get(i) / length) * ((Math.log((double) map.get(i) / length)) / Math.log(2.0));
-                }
-            }
-        } else if (Objects.equals(getFileExtension(fileName), ".txt")) {
-            barChart.setVisible(true);
-            tableView.setVisible(true);
-            label.setVisible(true);
 
             try {
                 text = readUsingScanner(fileName);
@@ -367,7 +483,6 @@ public class BarChartController implements Initializable {
             for (int i = 0; i <= 255; i++) {
                 series.getData().add(new XYChart.Data(String.valueOf(i), map.get(i)));
             }
-
             barChart.getData().addAll(series);
             for (int i = 0; i <= 255; i++) {
                 try {
@@ -383,6 +498,7 @@ public class BarChartController implements Initializable {
             barChartRed.setVisible(true);
             barChartGreen.setVisible(true);
             barChartBlue.setVisible(true);
+            roundLabel.setVisible(false);
 
             tableViewRed.setVisible(true);
             tableViewGreen.setVisible(true);
@@ -392,6 +508,18 @@ public class BarChartController implements Initializable {
             label1.setVisible(true);
             label2.setVisible(true);
             label3.setVisible(true);
+
+            lsgButton.setVisible(false);
+            bbsButton.setVisible(false);
+            lfsrButton.setVisible(false);
+
+            constButton.setVisible(false);
+            stringButton.setVisible(false);
+            lfsrKeyButton.setVisible(false);
+
+            feistButton.setVisible(false);
+            nextButton.setVisible(false);
+            lastButton.setVisible(false);
 
             channel = Channel.RED;
             startAnalysis();
@@ -439,10 +567,10 @@ public class BarChartController implements Initializable {
             entropy = entropyRed + entropyGreen + entropyBlue;
         }
 
-        label.setText("Энтропия: " + entropy);
-        label1.setText("Энтропия: " + entropyRed);
-        label2.setText("Энтропия: " + entropyGreen);
-        label3.setText("Энтропия: " + entropyBlue);
+        label.setText("Энтропия: " + decimalFormat.format(entropy));
+        label1.setText("Энтропия: " + decimalFormat.format(entropyRed));
+        label2.setText("Энтропия: " + decimalFormat.format(entropyGreen));
+        label3.setText("Энтропия: " + decimalFormat.format(entropyBlue));
     }
 
     private void startAnalysis() {
@@ -472,6 +600,51 @@ public class BarChartController implements Initializable {
                     lengthBlue += 1;
                 }
             }
+        }
+    }
+
+    private void generate() {
+        barChart.setVisible(true);
+        tableView.setVisible(true);
+        label.setVisible(true);
+
+        for (Integer ch : res) {
+            map.merge(ch, 1, Integer::sum);
+            length++;
+        }
+
+        series = new XYChart.Series();
+        series.setName("Количество повторений");
+        for (int i = 0; i <= 255; i++) {
+            series.getData().add(new XYChart.Data(String.valueOf(i), map.get(i)));
+        }
+
+        barChart.getData().addAll(series);
+        for (int i = 0; i <= 255; i++) {
+            try {
+                tableView.getItems().add(new Data(new String(new byte[]{map.get(i).byteValue()}, "cp866").toCharArray()[0], i, map.get(i), df.format((double) map.get(i) / length)));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if (map.get(i) != 0) {
+                entropy += -((double) map.get(i) / length) * ((Math.log((double) map.get(i) / length)) / Math.log(2.0));
+            }
+        }
+        label.setText("Энтропия: " + decimalFormat.format(entropy));
+    }
+
+    public void getFeistel() {
+        clearData();
+        try {
+            res = feistel.getFeistel(fileName, iterations);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        generate();
+        try {
+            showData();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

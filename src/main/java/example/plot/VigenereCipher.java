@@ -20,6 +20,7 @@ public class VigenereCipher {
     }
 
     public List<Integer> getVigenereKeyInt(String text, Integer keyInt) {
+        list.clear();
         enc = this.encrypt(text, keyInt);
 //        dec = this.decrypt(enc, keyInt);
 //        System.out.println(dec);
@@ -30,6 +31,7 @@ public class VigenereCipher {
     }
 
     public List<Integer> getVigenereKeyStr(String text, String key) {
+        list.clear();
         enc = this.encrypt(text, key);
 //        dec = this.decrypt(enc, key);
 //        System.out.println(dec);
@@ -40,6 +42,7 @@ public class VigenereCipher {
     }
 
     public List<Integer> getVigenereKeyList(String text, List<Integer> keyList) {
+        list.clear();
         enc = this.encrypt(text, keyList);
 //        dec = this.decrypt(enc, keyList);
 //        System.out.println(dec);

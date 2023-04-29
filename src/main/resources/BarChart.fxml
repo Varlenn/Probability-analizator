@@ -107,5 +107,24 @@
             <Font size="26.0" />
          </font>
       </Label>
+      <Button fx:id="bbsButton" layoutX="68.0" layoutY="179.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Генератор BBS" />
+      <Button fx:id="lfsrButton" layoutX="68.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Генератор LFSR" />
+      <Button fx:id="lsgButton" layoutX="68.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Генератор LSG" />
+      <Button fx:id="stringButton" disable="true" layoutX="277.0" layoutY="179.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Ключ-поговорка" />
+      <Button fx:id="lfsrKeyButton" disable="true" layoutX="277.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Ключ-LFSR" />
+      <Button fx:id="constButton" disable="true" layoutX="277.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Ключ-константа" />
+      <Button fx:id="nextButton" disable="true" layoutX="480.0" layoutY="179.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Следующий раунд" />
+      <Button fx:id="lastButton" disable="true" layoutX="480.0" layoutY="216.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Предыдущий раунд" />
+      <Button fx:id="feistButton" disable="true" layoutX="480.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Сеть Фейстеля" />
+      <Label layoutX="482.0" layoutY="254.0" prefHeight="25.0" prefWidth="151.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="roundLabel" layoutX="482.0" layoutY="254.0" prefHeight="25.0" prefWidth="151.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

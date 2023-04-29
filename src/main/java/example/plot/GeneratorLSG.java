@@ -7,7 +7,7 @@ import java.util.List;
 public class GeneratorLSG implements Generator{
     private final int a, c, m;
     private int x;
-    List<Integer> list = new ArrayList<>();
+    List<Integer> list;
 
     public GeneratorLSG() {
         a = 9301;
@@ -24,6 +24,7 @@ public class GeneratorLSG implements Generator{
 
     @Override
     public List<Integer> generate(int symbols) throws UnsupportedEncodingException {
+        list = new ArrayList<>();
         x = (int) System.currentTimeMillis();
 
         for (int i = 0; i < symbols; i++) {

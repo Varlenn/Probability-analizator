@@ -8,7 +8,7 @@ public class GeneratorLFSR implements Generator {
     private final int[] TAPS = { 1, 22,  22, 32 };
     private final int M = 32;
     private final boolean[] bits  = new boolean[M + 1];
-    List<Integer> list = new ArrayList<>();
+    List<Integer> list;
 
     public GeneratorLFSR() {
         final int seed = (int) System.currentTimeMillis();
@@ -44,6 +44,7 @@ public class GeneratorLFSR implements Generator {
 
     @Override
     public List<Integer> generate(int symbols) {
+        list = new ArrayList<>();
         for (int i = 0; i < symbols; i++) {
             final int number = setRandom(0, 32);
             list.add(number);
