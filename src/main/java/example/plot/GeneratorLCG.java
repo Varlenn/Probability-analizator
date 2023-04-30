@@ -4,12 +4,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneratorLSG implements Generator{
+public class GeneratorLCG implements Generator{
     private final int a, c, m;
     private int x;
     List<Integer> list;
 
-    public GeneratorLSG() {
+    public GeneratorLCG() {
         a = 9301;
         c = 49297;
         m = 233280;

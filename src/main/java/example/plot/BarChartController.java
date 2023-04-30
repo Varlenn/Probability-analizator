@@ -185,7 +185,7 @@ public class BarChartController implements Initializable {
     XYChart.Series seriesGreen;
     XYChart.Series seriesBlue;
 
-    GeneratorLSG lsg;
+    GeneratorLCG lcg;
     GeneratorBBS bbs;
     GeneratorLFSR lfsr;
     List<Integer> res;
@@ -222,7 +222,7 @@ public class BarChartController implements Initializable {
             map.put(i, 0);
         }
 
-        lsg = new GeneratorLSG();
+        lcg = new GeneratorLCG();
         bbs = new GeneratorBBS();
         lfsr = new GeneratorLFSR();
 
@@ -230,7 +230,7 @@ public class BarChartController implements Initializable {
             roundLabel.setVisible(false);
             clearData();
             try {
-                res = lsg.generate(1000);
+                res = lcg.generate(1000);
                 generate();
                 showData();
             } catch (UnsupportedEncodingException | SQLException e) {
