@@ -67,7 +67,7 @@ public class VigenereCipher {
     public String encrypt(final String text, final Integer key) {
         String encrypt = "";
         for (int i = 0, len = text.length(); i < len; i++) {
-            encrypt += (char) (text.charAt(i) + key);
+            encrypt += (char) (((text.charAt(i) + key - this.bias) % this.letters) + this.bias);
         }
         return encrypt;
     }
