@@ -19,17 +19,17 @@ public class VigenereCipher {
         lfsr = new GeneratorLFSR();
     }
 
-    public List<Integer> getVigenereKeyInt(String text, Integer keyInt) throws IOException {
+    public void getVigenereKeyInt(String text, Integer keyInt) throws IOException {
         list.clear();
         enc = this.encrypt(text, keyInt);
-        getList(enc);
+//        getList(enc);
 
         System.out.println(text);
         System.out.println(enc);
 
-//        filewrite("src/main/resources/ConstVigenere.txt", enc);
-
-        return list;
+////        filewrite("src/main/resources/ConstVigenere.txt", enc);
+//
+//        return list;
     }
 
     public List<Integer> getVigenereKeyStr(String text, String key) throws IOException {
@@ -69,7 +69,6 @@ public class VigenereCipher {
         for (int i = 0, len = text.length(); i < len; i++) {
             encrypt += (char) (text.charAt(i) + key);
         }
-        System.out.print(encrypt);
         return encrypt;
     }
 

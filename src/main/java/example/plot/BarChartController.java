@@ -196,6 +196,7 @@ public class BarChartController implements Initializable {
 
     int iterations = 1;
     boolean reFeist = false;
+    int constInt = 0;
 
 
     @Override
@@ -262,18 +263,20 @@ public class BarChartController implements Initializable {
 
         constButton.setOnAction(actionEvent -> {
             roundLabel.setVisible(false);
-            clearData();
+            constInt = 19;
             try {
-                res = cipher.getVigenereKeyInt(readUsingScanner(fileName), 1);
+                cipher.getVigenereKeyInt(readUsingScanner(fileName), 19);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            generate();
+            clearData();
+            setData();
             try {
                 showData();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            constInt = 0;
         });
         stringButton.setOnAction(actionEvent -> {
             roundLabel.setVisible(false);
@@ -515,7 +518,7 @@ public class BarChartController implements Initializable {
             try {
                 byte[] bytes = Files.readAllBytes(Path.of(fileName));
                 for (byte b : bytes) {
-                    map.merge(Byte.toUnsignedInt(b), 1, Integer::sum);
+                    map.merge(Byte.toUnsignedInt(b) + constInt, 1, Integer::sum);
                     length++;
                 }
             } catch (IOException e) {
