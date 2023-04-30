@@ -160,6 +160,12 @@ public class BarChartController implements Initializable {
     @FXML
     private Label roundLabel;
 
+    @FXML
+    private Button initButton;
+
+    @FXML
+    private Button deButton;
+
 
     String fileName;
     String text;
@@ -189,6 +195,7 @@ public class BarChartController implements Initializable {
     DecimalFormat decimalFormat = new DecimalFormat("#.###");
 
     int iterations = 1;
+    boolean reFeist = false;
 
 
     @Override
@@ -257,7 +264,7 @@ public class BarChartController implements Initializable {
             roundLabel.setVisible(false);
             clearData();
             try {
-                res = cipher.getVigenereKeyInt(readUsingScanner(fileName), 19);
+                res = cipher.getVigenereKeyInt(readUsingScanner(fileName), 1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -323,10 +330,44 @@ public class BarChartController implements Initializable {
         });
 
         feistButton.setOnAction(actionEvent -> {
+            nextButton.setDisable(false);
+            lastButton.setDisable(false);
+            deButton.setDisable(false);
+            feistButton.setDisable(true);
+
+            reFeist = false;
             roundLabel.setVisible(true);
             iterations = 1;
             roundLabel.setText("Раунд: " + iterations);
             getFeistel();
+        });
+
+        deButton.setOnAction(actionEvent -> {
+            nextButton.setDisable(true);
+            lastButton.setDisable(true);
+            deButton.setDisable(true);
+            feistButton.setDisable(false);
+
+            clearData();
+            reFeist = true;
+            roundLabel.setVisible(false);
+            getFeistel();
+        });
+
+
+        initButton.setOnAction(actionEvent -> {
+            nextButton.setDisable(true);
+            lastButton.setDisable(true);
+            deButton.setDisable(true);
+            feistButton.setDisable(false);
+
+            clearData();
+            setData();
+            try {
+                showData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         });
 
 
@@ -455,8 +496,11 @@ public class BarChartController implements Initializable {
             lastButton.setVisible(true);
 
             feistButton.setDisable(false);
-            nextButton.setDisable(false);
-            lastButton.setDisable(false);
+
+            initButton.setVisible(true);
+            initButton.setDisable(false);
+            deButton.setVisible(true);
+
 
             for (int i = 0; i <= 255; i++) {
                 map.put(i, 0);
@@ -520,6 +564,9 @@ public class BarChartController implements Initializable {
             feistButton.setVisible(false);
             nextButton.setVisible(false);
             lastButton.setVisible(false);
+
+            initButton.setVisible(false);
+            deButton.setVisible(false);
 
             channel = Channel.RED;
             startAnalysis();
@@ -636,7 +683,7 @@ public class BarChartController implements Initializable {
     public void getFeistel() {
         clearData();
         try {
-            res = feistel.getFeistel(fileName, iterations);
+            res = feistel.getFeistel(fileName, iterations, reFeist);
         } catch (IOException e) {
             e.printStackTrace();
         }
