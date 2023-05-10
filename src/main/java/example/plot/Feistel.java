@@ -12,18 +12,6 @@ public class Feistel {
     int[] a;
     static int[] b;
 
-    public static void main(String[] args) throws IOException {
-
-//        a = fileread("src/main/resources/textChipher.txt");                     //Считываем файл, который надо зашифровать
-//        feist(a, keygen(3));                     //Отправляем на шифрование
-//        filewrite("src/main/resources/shifr.txt", a);                   //Записываем зашифрованный файл
-
-
-//        int b[] = fileread("shifr");            //Считываем шифр
-//        refeist(b, keygen(3));                   //Расшифровываем
-//        filewrite("src/main/resources/output.txt", b);                  //Записываем результат
-    }
-
     public static int[] fileread(String filename) throws IOException {
         DataInputStream myfile = new DataInputStream(new FileInputStream(filename));
         ArrayList<Integer> list = new ArrayList<Integer>();
@@ -95,7 +83,9 @@ public class Feistel {
             }
             a[j] = l;
             a[j+1] = r;
+            System.out.print(a[j] + " ");
         }
+        System.out.print("\n");
     }
     private static int f(int b, int k) {
         return (b + k)%256;
