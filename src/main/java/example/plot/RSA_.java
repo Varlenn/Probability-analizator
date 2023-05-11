@@ -8,7 +8,7 @@ public class RSA_ {
         int p = 0, q, n, d, e;
         String str = "яблоки";
 
-        n = 899;
+        n = 667;
         for (int i = 2; i < n; i++) {
             if (n % i == 0) {
                 p = i;
