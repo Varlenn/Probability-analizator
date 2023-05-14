@@ -9,23 +9,41 @@ import static java.lang.Math.pow;
 
 public class DiffieHellman {
 
-    static Scanner in = new Scanner(System.in);
-    static int mem, num, deg, modul, res, len;
-    static int[] mas;
-    static boolean stackFull = false;
-    static List<Integer> list = new ArrayList<>();
-    static long x, y, kx, ky;
-    static BigInteger a, b;
+    Scanner in = new Scanner(System.in);
+    int mem, num, deg, modul, res, len;
+    int[] mas;
+    boolean stackFull = false;
+    List<Integer> list = new ArrayList<>();
+    long x, y, kx, ky;
+    BigInteger a, b;
+
+    public DiffieHellman(int modul, long x) {
+        this.modul = modul;
+        this.x = x;
+    }
+
+    public void dh() {
+        System.out.println("Секретный ключ участника A: " + x);
+        y = 35 - x;
+        System.out.println("Секретный ключ участника В: " + y);
+
+        kx = (long) (pow(list.get(0), x) % modul);
+        System.out.println("Открытый ключ участника А: " + kx);
+        ky = (long) (pow(list.get(0), y) % modul);
+        System.out.println("Открытый ключ участника В: " + ky);
 
 
-    public static void main(String[] args) {
-        System.out.println("Введите P: ");
-        modul = in.nextInt();
+        a = BigInteger.valueOf(ky).pow((int) x).mod(BigInteger.valueOf(modul));
+        System.out.println("Обменный ключ участника А: " + a);
+        b = BigInteger.valueOf(kx).pow((int) y).mod(BigInteger.valueOf(modul));
+        System.out.println("Обменный ключ участника В: " + b);
+    }
+
+    public void dhAlgorithm() {
         deg = 0;
         mem = 2;
         mas = new int[modul + 1];
         len = modul - 1;
-
 
         while (mem < len) {
             num = mem;
@@ -69,21 +87,41 @@ public class DiffieHellman {
         }
 
         System.out.println(list);
+    }
 
-        System.out.println("Введите секретный ключ участника A: ");
-        x = in.nextInt();
-        y = 35 - x;
-        System.out.println("Секретный ключ участника В: " + y);
+    public int getModul() {
+        return modul;
+    }
 
-        kx = (long) (pow(list.get(0), x) % modul);
-        System.out.println("Открытый ключ участника А: " + kx);
-        ky = (long) (pow(list.get(0), y) % modul);
-        System.out.println("Открытый ключ участника В: " + ky);
+    public void setModul(int modul) {
+        this.modul = modul;
+    }
 
+    public long getX() {
+        return x;
+    }
 
-        a = BigInteger.valueOf(ky).pow((int) x).mod(BigInteger.valueOf(modul));
-        System.out.println("Обменный ключ участника А: " + a);
-        b = BigInteger.valueOf(kx).pow((int) y).mod(BigInteger.valueOf(modul));
-        System.out.println("Обменный ключ участника В: " + b);
+    public void setX(long x) {
+        this.x = x;
+    }
+
+    public long getY() {
+        return y;
+    }
+
+    public long getKx() {
+        return kx;
+    }
+
+    public long getKy() {
+        return ky;
+    }
+
+    public BigInteger getA() {
+        return a;
+    }
+
+    public BigInteger getB() {
+        return b;
     }
 }

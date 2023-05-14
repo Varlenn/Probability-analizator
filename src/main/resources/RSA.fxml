@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="431.0" prefWidth="732.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.plot.RSAController">
+   <children>
+      <TextField fx:id="cField" layoutX="34.0" layoutY="103.0" prefHeight="33.0" prefWidth="322.0" />
+      <TextField fx:id="nField" layoutX="34.0" layoutY="178.0" prefHeight="33.0" prefWidth="322.0" />
+      <Label layoutX="41.0" layoutY="75.0" prefHeight="21.0" prefWidth="207.0" text="Зашифрованное сообщение:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="41.0" layoutY="147.0" prefHeight="21.0" prefWidth="232.0" text="n:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="pLabel" layoutX="400.0" layoutY="63.0" prefHeight="33.0" prefWidth="268.0" text="p:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="qLabel" layoutX="400.0" layoutY="104.0" prefHeight="33.0" prefWidth="268.0" text="q: ">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="funLabel" layoutX="400.0" layoutY="145.0" prefHeight="33.0" prefWidth="293.0" text="Значение функции Эйлера:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="dLabel" layoutX="400.0" layoutY="188.0" prefHeight="33.0" prefWidth="268.0" text="d:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="deLabel" layoutX="400.0" layoutY="229.0" prefHeight="33.0" prefWidth="332.0" text="Расшифрованное сообщение:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="genButton" layoutX="131.0" layoutY="346.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="128.0" text="Сгенерировать" />
+      <TextField fx:id="eField" layoutX="34.0" layoutY="253.0" prefHeight="33.0" prefWidth="322.0" />
+      <Label layoutX="41.0" layoutY="222.0" prefHeight="21.0" prefWidth="232.0" text="e:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="enLabel" layoutX="400.0" layoutY="271.0" prefHeight="33.0" prefWidth="332.0" text="Еще раз зашифрованное сообщение:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="signLabel" layoutX="400.0" layoutY="313.0" prefHeight="33.0" prefWidth="332.0" text="Подпись:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="deSignLabel" layoutX="400.0" layoutY="355.0" prefHeight="33.0" prefWidth="332.0" text="Расшифрованная подпись:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

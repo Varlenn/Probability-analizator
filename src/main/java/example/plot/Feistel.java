@@ -83,9 +83,9 @@ public class Feistel {
             }
             a[j] = l;
             a[j+1] = r;
-            System.out.print(a[j] + " ");
+//            System.out.print(a[j] + " ");
         }
-        System.out.print("\n");
+//        System.out.print("\n");
     }
     private static int f(int b, int k) {
         return (b + k)%256;

@@ -53,6 +53,9 @@ public class BarChartController implements Initializable {
     private TableColumn<Data, Integer> asciiNumColumn3;
 
     @FXML
+    private Button rsaButton;
+
+    @FXML
     private BarChart<?, ?> barChart;
 
     @FXML
@@ -63,6 +66,9 @@ public class BarChartController implements Initializable {
 
     @FXML
     private BarChart<?, ?> barChartRed;
+
+    @FXML
+    private Button dhButton;
 
     @FXML
     private Label label;
@@ -401,6 +407,23 @@ public class BarChartController implements Initializable {
             try {
                 showData();
             } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        dhButton.setOnAction(actionEvent -> {
+            try {
+                DiffieHellmanController.newWindow();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        rsaButton.setOnAction(actionEvent -> {
+            try {
+                RSAController.newWindow();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
