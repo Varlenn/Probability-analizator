@@ -2,6 +2,9 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/example/plot/DESMatrix.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/example/plot/DESMethod.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/main/java/example/plot/DESUtils.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/proverbVigenere.txt" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/main/resources/shifr.txt" charset="windows-1251" />

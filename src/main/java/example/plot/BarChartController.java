@@ -29,6 +29,18 @@ import java.util.*;
 public class BarChartController implements Initializable {
 
     @FXML
+    private Button CBCButton;
+
+    @FXML
+    private Button CFBButton;
+
+    @FXML
+    private Button ECBButton;
+
+    @FXML
+    private Button OFBButton;
+
+    @FXML
     private TableColumn<Data, Character> asciiCharColumn;
 
     @FXML
@@ -200,6 +212,8 @@ public class BarChartController implements Initializable {
     Feistel feistel = new Feistel();
     DecimalFormat decimalFormat = new DecimalFormat("#.###");
 
+    DESMethod desMethod = new DESMethod();
+
     int iterations = 1;
     boolean reFeist = false;
     int constInt = 0;
@@ -350,6 +364,52 @@ public class BarChartController implements Initializable {
             roundLabel.setText("Раунд: " + iterations);
             getFeistel();
         });
+
+
+        ECBButton.setOnAction(actionEvent -> {
+            nextButton.setDisable(false);
+            lastButton.setDisable(false);
+            deButton.setDisable(false);
+            feistButton.setDisable(true);
+
+            reFeist = false;
+            roundLabel.setVisible(true);
+            getDES(DESMethod.Mode.ECB);
+        });
+
+        CBCButton.setOnAction(actionEvent -> {
+            nextButton.setDisable(false);
+            lastButton.setDisable(false);
+            deButton.setDisable(false);
+            feistButton.setDisable(true);
+
+            reFeist = false;
+            roundLabel.setVisible(true);
+            getDES(DESMethod.Mode.CBC);
+        });
+
+        CFBButton.setOnAction(actionEvent -> {
+            nextButton.setDisable(false);
+            lastButton.setDisable(false);
+            deButton.setDisable(false);
+            feistButton.setDisable(true);
+
+            reFeist = false;
+            roundLabel.setVisible(true);
+            getDES(DESMethod.Mode.CFB);
+        });
+
+        OFBButton.setOnAction(actionEvent -> {
+            nextButton.setDisable(false);
+            lastButton.setDisable(false);
+            deButton.setDisable(false);
+            feistButton.setDisable(true);
+
+            reFeist = false;
+            roundLabel.setVisible(true);
+            getDES(DESMethod.Mode.OFB);
+        });
+
 
         deButton.setOnAction(actionEvent -> {
             nextButton.setDisable(true);
@@ -527,6 +587,11 @@ public class BarChartController implements Initializable {
             initButton.setDisable(false);
             deButton.setVisible(true);
 
+            ECBButton.setVisible(true);
+            CBCButton.setVisible(true);
+            CFBButton.setVisible(true);
+            OFBButton.setVisible(true);
+
 
             for (int i = 0; i <= 255; i++) {
                 map.put(i, 0);
@@ -593,6 +658,11 @@ public class BarChartController implements Initializable {
 
             initButton.setVisible(false);
             deButton.setVisible(false);
+
+            ECBButton.setVisible(false);
+            CBCButton.setVisible(false);
+            CFBButton.setVisible(false);
+            OFBButton.setVisible(false);
 
             channel = Channel.RED;
             startAnalysis();
@@ -710,6 +780,28 @@ public class BarChartController implements Initializable {
         clearData();
         try {
             res = feistel.getFeistel(fileName, iterations, reFeist);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        generate();
+        try {
+            showData();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void getDES(DESMethod.Mode mode) {
+        desMethod.setMode(mode);
+        clearData();
+        try {
+            String cipher = desMethod.crypt("Родной куст и зайцу дорог.", DESUtils.utfToBin(readUsingScanner(fileName)), true);
+            cipher = DESUtils.binToUTF(cipher);
+            List<Integer> list = new ArrayList<>();
+            for (char ch : cipher.toCharArray()) {
+                list.add((int) ch);
+            }
+            res = list;
         } catch (IOException e) {
             e.printStackTrace();
         }

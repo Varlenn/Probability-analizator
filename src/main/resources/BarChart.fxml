@@ -130,5 +130,9 @@
       <Button fx:id="deButton" disable="true" layoutX="480.0" layoutY="112.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Дешифровать" />
       <Button fx:id="dhButton" layoutX="277.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="Диффи-Хеллман" />
       <Button fx:id="rsaButton" layoutX="482.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="RSA" />
+      <Button fx:id="ECBButton" layoutX="111.0" layoutY="745.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="ECB" />
+      <Button fx:id="CBCButton" layoutX="228.0" layoutY="745.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="CBC" />
+      <Button fx:id="CFBButton" layoutX="346.0" layoutY="745.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="CFB" />
+      <Button fx:id="OFBButton" layoutX="464.0" layoutY="745.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="OFB" />
    </children>
 </AnchorPane>
